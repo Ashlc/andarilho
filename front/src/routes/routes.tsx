@@ -8,12 +8,13 @@ import SignUp from '@pages/SignUp';
 import ViewReport from '@pages/ViewReport';
 import { createBrowserRouter } from 'react-router-dom';
 import PrivateLayout from '../layouts/PrivateLayout';
+import HomeController from './HomeController';
 
 export const AppRoutes = createBrowserRouter([
   {
     element: <PrivateLayout />,
     children: [
-      { path: '/home', element: <Home /> },
+      { path: '/home', element: <HomeController /> },
       { path: '/reporte/:id', element: <ViewReport /> },
       { path: '/reporte', element: <Report /> },
       { path: '/meus-reportes', element: <MyReports /> },

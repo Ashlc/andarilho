@@ -1,3 +1,4 @@
+import Header from '@components/Header';
 import { ReactNode } from 'react';
 
 type Props = {
@@ -5,7 +6,10 @@ type Props = {
 };
 
 const Index = ({ children }: Props) => (
-  <div className="sm:w-screen md:w-10/12 py-6 mx-auto h-screen">{children}</div>
+  <div className="min-h-screen w-screen">
+    <Header />
+    <div className="sm:w-screen md:w-10/12 pt-6 pb-4 mx-auto">{children}</div>
+  </div>
 );
 
 export default Index;

@@ -23,7 +23,7 @@ class AuthController {
                 { expiresIn: "3h" }
             );
 
-            res.status(200).json({ token, id: user.id });
+            res.status(200).json({ token, id: user.id, role: user.role });
         } catch (error) {
             res.status(500).json({ message: "Erro no login", error });
         }

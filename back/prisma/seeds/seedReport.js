@@ -14,6 +14,7 @@ async function seedReport() {
             photos: [],
             userId: 1,
             locationId: 1,
+            processNumber: "0123456789"
         },
     });
     return report;

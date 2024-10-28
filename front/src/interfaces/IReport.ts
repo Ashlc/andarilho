@@ -15,4 +15,5 @@ export interface IReport {
   photos: string[];
   status: 'PENDING' | 'EVALUATING' | 'ONGOING' | 'FINISHED';
   createdAt?: string;
+  description?: string;
 }
