@@ -1,5 +1,4 @@
 import Account from '@pages/Account';
-import Home from '@pages/Home';
 import Landing from '@pages/Landing';
 import Login from '@pages/Login';
 import MyReports from '@pages/MyReports';
