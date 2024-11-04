@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const a = axios.create({
-  baseURL: "http://3.22.72.129",
+  baseURL: import.meta.env.VITE_API_URL as string,
   timeout: 10000,
 });
 
