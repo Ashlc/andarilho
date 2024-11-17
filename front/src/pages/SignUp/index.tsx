@@ -32,6 +32,7 @@ const Index = () => {
     { value: 'physical', label: 'Física' },
     { value: 'sight', label: 'Visual' },
     { value: 'speech', label: 'Fala' },
+    { value: 'other', label: 'Outra' },
   ];
 
   const onSubmit = async (data: Record<string, unknown>) => {
