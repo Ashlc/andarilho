@@ -9,6 +9,7 @@ import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import InputMask from 'react-input-mask';
 
 type ErrorResponse = {
   response?: {
@@ -18,13 +19,19 @@ type ErrorResponse = {
 
 const Index = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit, control } = useForm();
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
   const signIn = useSignIn();
 
   const disabilities = [
     { value: 'hearing', label: 'Auditiva' },
     { value: 'physical', label: 'Física' },
     { value: 'sight', label: 'Visual' },
+    { value: 'speech', label: 'Fala' },
   ];
 
   const onSubmit = async (data: Record<string, unknown>) => {
@@ -65,6 +72,7 @@ const Index = () => {
       }
     }
   };
+
   return (
     <Column className="w-full h-screen flex flex-col">
       <form
@@ -87,7 +95,11 @@ const Index = () => {
         </Column>
         <Column className="gap-2 w-full">
           <Label htmlFor="cpf">CPF</Label>
-          <Input id="cpf" type="text" placeholder="" {...register('cpf')} />
+          <InputMask mask="999.999.999-99" {...register('cpf')}>
+            {(inputProps: any) => (
+              <Input id="cpf" type="text" placeholder="" {...inputProps} />
+            )}
+          </InputMask>
         </Column>
         <Column className="gap-2 w-full">
           <Label htmlFor="email">Email</Label>
@@ -95,18 +107,39 @@ const Index = () => {
         </Column>
         <Column className="gap-2 w-full">
           <Label htmlFor="password">Senha</Label>
-          <Input id="password" type="password" {...register('password')} />
+          <Input
+            id="password"
+            type="password"
+            {...register('password', {
+              required: 'Senha é obrigatória',
+              pattern: {
+                value: /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                message:
+                  'A senha deve conter no mínimo 8 caracteres, 1 letra maiúscula e 1 número',
+              },
+            })}
+          />
+          {errors.password && (
+            <p className="text-red-500">{errors.password.message}</p>
+          )}
         </Column>
         <Column className="gap-2 w-full">
           <Label htmlFor="password-confirmation">Confirme sua senha</Label>
           <Input
             id="password-confirmation"
             type="password"
-            {...register('password-confirmation')}
+            {...register('password-confirmation', {
+              required: 'Confirmação de senha é obrigatória',
+            })}
           />
+          {errors['password-confirmation'] && (
+            <p className="text-red-500">
+              {errors['password-confirmation'].message}
+            </p>
+          )}
         </Column>
         <Column className="gap-2 w-full">
-          <Label htmlFor="password-confirmation">
+          <Label htmlFor="disabilities">
             Deficiências ou necessidades especiais
           </Label>
           <Controller
