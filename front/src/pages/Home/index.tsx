@@ -1,7 +1,7 @@
 import { markers } from '@assets/markers/markers';
 import Column from '@components/Column';
 import Row from '@components/Row';
-import Search from '@components/Search';
+
 import { Button } from '@components/ui/button';
 import {
   DropdownMenu,
@@ -17,11 +17,9 @@ import { getLocation } from '@utils/getLocation';
 import { Map } from 'leaflet';
 import { useEffect, useRef, useState } from 'react';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import { MdAccountCircle, MdMenu, MdNotAccessible } from 'react-icons/md';
+import { MdAccountCircle, MdMenu } from 'react-icons/md';
 import {
   RiErrorWarningLine,
-  RiEyeOffFill,
-  RiFilter2Fill,
   RiFocus3Line,
   RiMegaphoneFill,
 } from 'react-icons/ri';
@@ -84,6 +82,11 @@ const Index = () => {
     }
   };
 
+  const handleMapClick = (event: [number, number]) => {
+    console.log('Localização do clique:', event);
+    // Faça algo com a localização do clique, como adicionar um marcador
+  };
+
   useEffect(() => {
     getReports();
     getLocationAddress();
@@ -95,29 +98,6 @@ const Index = () => {
 
   return (
     <Column className="justify-between h-full w-full relative">
-      <Column className="gap-2 fixed top-10 left-8 right-8 z-10">
-        <Row className="w-full items-center justify-center gap-2">
-          <Search />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="gap-2 border border-border">
-                <RiFilter2Fill size={18} />
-                <p>Filtros</p>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent sideOffset={8} className="p-2">
-              <DropdownMenuItem className="gap-2">
-                <MdNotAccessible size={20} />
-                <p>Inacessível para cadeira de rodas</p>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="gap-2">
-                <RiEyeOffFill size={20} />
-                <p>Inacessível para deficientes visuais</p>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </Row>
-      </Column>
       <div className="fixed top-0 left-0 h-screen w-screen overflow-clip bg-blue-400">
         <MapContainer
           ref={mapRef}
