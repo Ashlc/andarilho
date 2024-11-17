@@ -43,4 +43,10 @@ export const markers: IMarkers = {
     ONGOING: marker(BlindOngoing),
     FINISHED: marker(BlindDone),
   },
+  RAMP: {
+    PENDING: marker(WheelchairPending),
+    EVALUATING: marker(WheelchairEvaluating),
+    ONGOING: marker(WheelchairOngoing),
+    FINISHED: marker(WheelchairDone),
+  },
 };
