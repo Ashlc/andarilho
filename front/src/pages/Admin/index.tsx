@@ -80,12 +80,6 @@ const index = () => {
       fill: chartConfig[key as keyof typeof chartConfig].color,
     }));
 
-    chartDataArray.push({ name: 'EVALUATING', value: 10, fill: '#eab308' });
-    chartDataArray.push({ name: 'ONGOING', value: 4, fill: '#a855f7' });
-    chartDataArray.push({ name: 'FINISHED', value: 2, fill: '#22c55e' });
-
-    totalReportsCount += 10 + 4 + 2;
-
     setTotalReports(totalReportsCount);
     setChartData(chartDataArray);
   };
