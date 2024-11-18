@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 // Certifique-se de que o caminho para o arquivo está correto
 
-
 const app = express();
 
 app.use(cors());
@@ -29,10 +28,10 @@ const locationRouter = require("./api/routes/locationRouter");
 const reportRouter = require("./api/routes/reportRouter");
 const authRouter = require("./api/routes/authRouter");
 
-
 app.use("/user", userRouter);
 app.use("/location", locationRouter);
 app.use("/report", reportRouter);
 app.use("/auth", authRouter);
+app.use("/", (req, res) => res.send("Welcome to the API"));
 
 module.exports = app;
