@@ -29,6 +29,9 @@ class UserController {
     async createUser(req, res) {
         const { email, password, role } = req.body;
         try {
+            if (password.length < 8) {
+                return res.status(400).json({ message: "A senha deve ter pelo menos 8 dígitos." });
+            }
             const hashedPassword = await bcrypt.hash(password, 10);
             const newUser = await userService.createUser({
                 email,
@@ -45,6 +48,9 @@ class UserController {
         const { id } = req.params;
         const { email, role, password } = req.body;
         try {
+            if (password && password.length < 8) {
+                return res.status(400).json({ message: "A senha deve ter pelo menos 8 dígitos." });
+            }
             const hashedPassword = await bcrypt.hash(password, 10);
             const updatedUser = await userService.updateUser(id, {
                 email,
