@@ -23,11 +23,13 @@ import { resourceTranslation } from '@utils/resourceTranslation';
 import { useEffect, useState } from 'react';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { Controller, useForm } from 'react-hook-form';
-import { RiDashboardFill, RiFile3Line } from 'react-icons/ri';
+import { RiArrowRightLine, RiDashboardFill, RiFile3Line } from 'react-icons/ri';
+import { useNavigate } from 'react-router-dom';
 import { Label, Pie, PieChart } from 'recharts';
 import { toast } from 'sonner';
 
 const index = () => {
+  const navigate = useNavigate();
   const [chartData, setChartData] = useState([{ name: '', value: 0 }]);
   const { handleSubmit, control } = useForm();
   const [reports, setReports] = useState<IReport[]>([]);
@@ -232,6 +234,18 @@ const index = () => {
                   <TableCell>{resourceTranslation[report.resource]}</TableCell>
                   <TableCell>
                     <StatusTag status={report.status} />
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="aspect-square"
+                      onClick={() => {
+                        navigate(`/reporte/${report.id}`);
+                      }}
+                    >
+                      <RiArrowRightLine size={20} />
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
