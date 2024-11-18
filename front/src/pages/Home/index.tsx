@@ -45,7 +45,12 @@ const Index = () => {
   const [reports, setReports] = useState<IReport[]>([]);
 
   const navigateToReport = () => {
-    navigate('/reporte');
+    navigate('/reporte', {
+      state: {
+        lat: yourLocation[0],
+        lng: yourLocation[1],
+      },
+    });
   };
 
   const triggerLocation = () => {
@@ -97,8 +102,8 @@ const Index = () => {
 
   const handleMapClick = (event: any) => {
     const { lat, lng } = event.latlng;
+    setYourLocation([lat, lng]);
     console.log(`Latitude: ${lat}, Longitude: ${lng}`);
-    navigate('/reporte', { state: { lat, lng } });
   };
 
   useEffect(() => {
