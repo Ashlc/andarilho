@@ -16,4 +16,5 @@ export interface IReport {
   status: 'PENDING' | 'EVALUATING' | 'ONGOING' | 'FINISHED';
   createdAt?: string;
   description?: string;
+  userId: number;
 }
