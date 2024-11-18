@@ -23,7 +23,13 @@ import {
   RiFocus3Line,
   RiMegaphoneFill,
 } from 'react-icons/ri';
-import { CircleMarker, MapContainer, Marker, TileLayer } from 'react-leaflet';
+import {
+  CircleMarker,
+  MapContainer,
+  Marker,
+  TileLayer,
+  useMapEvents,
+} from 'react-leaflet';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
@@ -82,9 +88,17 @@ const Index = () => {
     }
   };
 
-  const handleMapClick = (event: [number, number]) => {
-    console.log('Localização do clique:', event);
-    // Faça algo com a localização do clique, como adicionar um marcador
+  const MapClickHandler = () => {
+    useMapEvents({
+      click: handleMapClick,
+    });
+    return null;
+  };
+
+  const handleMapClick = (event: any) => {
+    const { lat, lng } = event.latlng;
+    console.log(`Latitude: ${lat}, Longitude: ${lng}`);
+    navigate('/reporte', { state: { lat, lng } });
   };
 
   useEffect(() => {
@@ -124,6 +138,7 @@ const Index = () => {
               }}
             />
           ))}
+          <MapClickHandler />
         </MapContainer>
       </div>
       <div className="fixed bottom-10 left-8 right-8 flex flex-col gap-10 z-10">
