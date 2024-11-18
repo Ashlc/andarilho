@@ -201,6 +201,7 @@ const index = () => {
                 <TableHead className="w-10"></TableHead>
                 <TableHead>Descrição</TableHead>
                 <TableHead>Data</TableHead>
+                <TableHead>Endereço</TableHead>
                 <TableHead>Recurso</TableHead>
                 <TableHead>Status</TableHead>
               </TableRow>
@@ -222,11 +223,12 @@ const index = () => {
                       )}
                     />
                   </TableCell>
-                  <TableCell>{resourceTranslation[report.resource]}</TableCell>
+                  <TableCell>{report.description}</TableCell>
                   <TableCell>
                     {report.createdAt &&
                       new Date(report.createdAt).toLocaleDateString('pt-br')}
                   </TableCell>
+                  <TableCell>{report.location.address}</TableCell>
                   <TableCell>{resourceTranslation[report.resource]}</TableCell>
                   <TableCell>
                     <StatusTag status={report.status} />
