@@ -150,6 +150,9 @@ const Index = () => {
       const newLocation: [number, number] = [lat, lng];
       console.log(newLocation);
       setLocation(newLocation);
+      reverseGeocode(newLocation[0], newLocation[1]).then((address) =>
+        setAddress(address),
+      );
       mapRef.current?.flyTo(
         {
           lat: newLocation[0],
