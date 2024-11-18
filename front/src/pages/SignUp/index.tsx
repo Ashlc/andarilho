@@ -7,9 +7,9 @@ import { Label } from '@components/ui/label';
 import { post } from '@services/api';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import { Controller, useForm } from 'react-hook-form';
+import InputMask from 'react-input-mask';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import InputMask from 'react-input-mask';
 
 type ErrorResponse = {
   response?: {
@@ -121,7 +121,7 @@ const Index = () => {
             })}
           />
           {errors.password && (
-            <p className="text-red-500">{errors.password.message}</p>
+            <p className="text-red-500">{errors.password.message as string}</p>
           )}
         </Column>
         <Column className="gap-2 w-full">
@@ -135,7 +135,7 @@ const Index = () => {
           />
           {errors['password-confirmation'] && (
             <p className="text-red-500">
-              {errors['password-confirmation'].message}
+              {errors['password-confirmation'].message as string}
             </p>
           )}
         </Column>
