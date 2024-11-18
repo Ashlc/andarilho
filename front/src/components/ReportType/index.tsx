@@ -2,12 +2,12 @@ import { MdAccessibleForward, MdBlind } from 'react-icons/md';
 import { RiLoader2Line } from 'react-icons/ri';
 
 type Props = {
-  type?: 'wheelchair' | 'blind';
+  type?: 'RAMP' | 'blind';
 };
 
 const Index = ({ type }: Props) => {
   const reportTypes = {
-    wheelchair: <MdAccessibleForward size={24} />,
+    RAMP: <MdAccessibleForward size={24} />,
     blind: <MdBlind size={24} />,
   };
   return (
