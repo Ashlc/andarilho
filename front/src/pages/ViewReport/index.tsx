@@ -60,6 +60,16 @@ export function Index() {
   };
 
   useEffect(() => {
+    mapRef.current?.flyTo(
+      {
+        lat: reportData?.location.latitude ?? center[0],
+        lng: reportData?.location.longitude ?? center[1],
+      },
+      16,
+    );
+  }, [reportData]);
+
+  useEffect(() => {
     getReport();
   }, [reportId]);
 
