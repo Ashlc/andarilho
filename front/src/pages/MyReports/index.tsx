@@ -26,8 +26,18 @@ export default function Index() {
   };
 
   const formatDate = (date: string) => {
-    const [year, month, day] = date.split('-');
-    return `${day}/${month}/${year}`;
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZoneName: 'short',
+    };
+
+    const dateObj = new Date(date);
+    return dateObj.toLocaleDateString('pt-BR', options);
   };
 
   const getReports = async () => {
@@ -35,7 +45,11 @@ export default function Index() {
       path: '/report',
       token,
     });
-    setReports(response as unknown as IReport[]);
+
+    const filteredReports = response.filter(
+      (report: IReport) => report.userId === authUser?.id,
+    );
+    setReports(filteredReports as unknown as IReport[]);
   };
 
   useEffect(() => {
