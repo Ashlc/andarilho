@@ -29,7 +29,7 @@ import { toast } from 'sonner';
 
 const index = () => {
   const [chartData, setChartData] = useState([{ name: '', value: 0 }]);
-  const { register, handleSubmit, control } = useForm();
+  const { handleSubmit, control } = useForm();
   const [reports, setReports] = useState<IReport[]>([]);
   const [totalReports, setTotalReports] = useState(0);
   const { token } = useAuthUser() as IAuthUser;
