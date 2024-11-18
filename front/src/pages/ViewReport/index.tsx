@@ -11,11 +11,7 @@ import {
   CarouselItem,
 } from '@components/ui/carousel';
 import { Label } from '@components/ui/label';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@components/ui/popover';
+import { Popover } from '@components/ui/popover';
 import { Separator } from '@components/ui/separator';
 import { IAuthUser } from '@interfaces/IAuthUser';
 import { IReport } from '@interfaces/IReport';

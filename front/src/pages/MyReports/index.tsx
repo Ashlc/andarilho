@@ -9,12 +9,12 @@ import { IReport } from '@interfaces/IReport';
 import { get } from '@services/api';
 import { useEffect, useState } from 'react';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import { CiClock2, CiLocationOn } from 'react-icons/ci';
 import {
   RiArrowDropLeftLine,
   RiArrowDropRightFill,
   RiFilter2Fill,
 } from 'react-icons/ri';
-import { CiClock2, CiLocationOn } from 'react-icons/ci';
 import { useNavigate } from 'react-router-dom';
 
 export default function Index() {
@@ -42,10 +42,10 @@ export default function Index() {
   };
 
   const getReports = async () => {
-    const response = await get({
+    const response = (await get({
       path: '/report',
       token,
-    });
+    })) as unknown as IReport[];
 
     const filteredReports = response.filter(
       (report: IReport) => report.userId === authUser?.id,
