@@ -60,6 +60,16 @@ export function Index() {
   };
 
   useEffect(() => {
+    mapRef.current?.flyTo(
+      {
+        lat: reportData?.location.latitude ?? center[0],
+        lng: reportData?.location.longitude ?? center[1],
+      },
+      16,
+    );
+  }, [reportData]);
+
+  useEffect(() => {
     getReport();
   }, [reportId]);
 
@@ -94,20 +104,7 @@ export function Index() {
         <div className="absolute w-full flex flex-col items-center -bottom-5 z-10">
           {reportData && (
             <Popover>
-              <PopoverTrigger>
-                <StatusTag status={reportData.status} className="mb-2" />
-              </PopoverTrigger>
-              <PopoverContent>
-                <div className="flex flex-col space-y-2">
-                  <div>Nome: João</div>
-                  <div>Localização: Rua dos Bobos, 0</div>
-                  <div>Distância: 0.5 km</div>
-                  <div>
-                    Descrição: O local não possui acessibilidade para
-                    cadeirantes.
-                  </div>
-                </div>
-              </PopoverContent>
+              <StatusTag status={reportData.status} className="mb-2" />
             </Popover>
           )}
         </div>

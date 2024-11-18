@@ -11,9 +11,10 @@ export interface IReport {
   processNumber?: string;
   location: Address;
   type: 'wheelchair' | 'blind';
-  resource: 'wheelchair' | 'blind';
+  resource: 'RAMP' | 'blind';
   photos: string[];
   status: 'PENDING' | 'EVALUATING' | 'ONGOING' | 'FINISHED';
   createdAt?: string;
   description?: string;
+  userId: number;
 }

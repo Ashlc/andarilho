@@ -18,7 +18,7 @@ import { center } from '@utils/center';
 import { maptilerKey } from '@utils/environment';
 import { getLocation } from '@utils/getLocation';
 import { Map } from 'leaflet';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { Controller, useForm } from 'react-hook-form';
 import {
@@ -29,6 +29,7 @@ import {
 import { CircleMarker, MapContainer, TileLayer } from 'react-leaflet';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import { useLocation } from 'react-router-dom';
 
 interface ILocation {
   address: string;
@@ -46,6 +47,9 @@ interface IReport {
 }
 
 const Index = () => {
+  const adressReport = useLocation();
+  const { lat, lng } = adressReport.state || {};
+
   const [location, setLocation] = useState<[number, number]>(center);
   const [address, setAddress] = useState<string>('');
   const authUser = useAuthUser<IAuthUser>();
@@ -134,6 +138,30 @@ const Index = () => {
     });
     goHome();
   };
+  useEffect(() => {
+    if (mapRef.current && location) {
+      const map = mapRef.current;
+      map.setView(location, 20);
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (lat && lng) {
+      const newLocation: [number, number] = [lat, lng];
+      console.log(newLocation);
+      setLocation(newLocation);
+      reverseGeocode(newLocation[0], newLocation[1]).then((address) =>
+        setAddress(address),
+      );
+      mapRef.current?.flyTo(
+        {
+          lat: newLocation[0],
+          lng: newLocation[1],
+        },
+        13,
+      );
+    }
+  }, [lat, lng]);
 
   const onSubmit = async (data: unknown) => {
     const { complement } = data as ILocation;
@@ -160,10 +188,9 @@ const Index = () => {
       <div className="border-t border-b border-border h-[160px] bg-blue-400">
         <MapContainer
           ref={mapRef}
-          center={center}
-          zoom={13}
+          center={location}
+          zoom={30}
           scrollWheelZoom={true}
-          zoomControl={false}
           //@ts-expect-error: Workaround for leaflet typings
           loadingControl={true}
         >

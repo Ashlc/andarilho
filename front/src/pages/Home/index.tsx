@@ -1,7 +1,7 @@
 import { markers } from '@assets/markers/markers';
 import Column from '@components/Column';
 import Row from '@components/Row';
-import Search from '@components/Search';
+
 import { Button } from '@components/ui/button';
 import {
   DropdownMenu,
@@ -17,15 +17,19 @@ import { getLocation } from '@utils/getLocation';
 import { Map } from 'leaflet';
 import { useEffect, useRef, useState } from 'react';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import { MdAccountCircle, MdMenu, MdNotAccessible } from 'react-icons/md';
+import { MdAccountCircle, MdMenu } from 'react-icons/md';
 import {
   RiErrorWarningLine,
-  RiEyeOffFill,
-  RiFilter2Fill,
   RiFocus3Line,
   RiMegaphoneFill,
 } from 'react-icons/ri';
-import { CircleMarker, MapContainer, Marker, TileLayer } from 'react-leaflet';
+import {
+  CircleMarker,
+  MapContainer,
+  Marker,
+  TileLayer,
+  useMapEvents,
+} from 'react-leaflet';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
@@ -41,7 +45,12 @@ const Index = () => {
   const [reports, setReports] = useState<IReport[]>([]);
 
   const navigateToReport = () => {
-    navigate('/reporte');
+    navigate('/reporte', {
+      state: {
+        lat: yourLocation[0],
+        lng: yourLocation[1],
+      },
+    });
   };
 
   const triggerLocation = () => {
@@ -84,6 +93,19 @@ const Index = () => {
     }
   };
 
+  const MapClickHandler = () => {
+    useMapEvents({
+      click: handleMapClick,
+    });
+    return null;
+  };
+
+  const handleMapClick = (event: any) => {
+    const { lat, lng } = event.latlng;
+    setYourLocation([lat, lng]);
+    console.log(`Latitude: ${lat}, Longitude: ${lng}`);
+  };
+
   useEffect(() => {
     getReports();
     getLocationAddress();
@@ -95,29 +117,6 @@ const Index = () => {
 
   return (
     <Column className="justify-between h-full w-full relative">
-      <Column className="gap-2 fixed top-10 left-8 right-8 z-10">
-        <Row className="w-full items-center justify-center gap-2">
-          <Search />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="gap-2 border border-border">
-                <RiFilter2Fill size={18} />
-                <p>Filtros</p>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent sideOffset={8} className="p-2">
-              <DropdownMenuItem className="gap-2">
-                <MdNotAccessible size={20} />
-                <p>Inacessível para cadeira de rodas</p>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="gap-2">
-                <RiEyeOffFill size={20} />
-                <p>Inacessível para deficientes visuais</p>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </Row>
-      </Column>
       <div className="fixed top-0 left-0 h-screen w-screen overflow-clip bg-blue-400">
         <MapContainer
           ref={mapRef}
@@ -144,6 +143,7 @@ const Index = () => {
               }}
             />
           ))}
+          <MapClickHandler />
         </MapContainer>
       </div>
       <div className="fixed bottom-10 left-8 right-8 flex flex-col gap-10 z-10">

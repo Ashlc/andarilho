@@ -104,11 +104,15 @@ Acreditamos que por meio dessa apresentação iremos conseguir demonstrar de for
 
 Definimos que o problema que o nosso projeto tratará será a falta de uma ferramenta centralizada para realização de denúncias de falta de acessibilidade em ambientes e serviços públicos e privados aos órgãos competentes, usando-se de estatísticas e leis que embasariam nossa proposta. Saberemos que isso aconteceu com base na aprovação do professor Ig Ibert.
 
+Prazo: 26/07/2024
+
 ---
 
-### Realizar entrevistas- 29/07/2024
+### Realizar entrevistas - 29/07/2024
 
 Acreditamos que realizar entrevistas presenciais vai conseguir coletar informações valiosas diretamente dos usuários para localizarmos um problema real. Saberemos que isso aconteceu com base em "insights relevantes obtidos das entrevistas presenciais.
+
+Prazo: 02/08/2024
 
 ---
 
@@ -116,29 +120,64 @@ Acreditamos que realizar entrevistas presenciais vai conseguir coletar informaç
 
 Acreditamos que esse a criação o diagrama de Ishikawa vai conseguir identificar as causas raiz dos problemas. Saberemos que isso aconteceu com base em conclusão do diagrama de Ishikawa categorizado.
 
+Prazo: 02/08/2024
+
 ---
 
 ### Criação do Jira - 30/07/2024
 
 Acreditamos que ao criar o projeto no Jira vamos conseguir estruturar o projeto e organizar as sprints. Saberemos que isso aconteceu com base em um backlog bem definido, tarefas devidamente distribuídas nas sprints e acompanhamento eficiente do progresso através dos relatórios gerados pelo Jira.
 
----
+Prazo: 02/08/2024
 
+---
 
 ### Criação de Personas - 01/08/2024
 
-Acreditamos que criar as personas vai conseguir "definir perfis de usuários detalhados". Saberemos que isso aconteceu com base em As personas ajudam a entender melhor os objetivos e problemas dos usuários, e estão alinhadas com os objetivos do projeto.
+Acreditamos que criar as personas vai conseguir "definir perfis de usuários detalhados". Saberemos que isso aconteceu com base nas personas ajudam a entender melhor os objetivos e problemas dos usuários, e estão alinhadas com os objetivos do projeto.
+
+Prazo: 05/08/2024
 
 ---
 
-### Prototipação em figma - 28/08/2024
+### Prototipação em figma - 21/08/2024
 
 Acreditamos que esse "Prototipo em Figma" vai conseguir "criar protótipos visuais claros das interfaces do projeto". Saberemos que isso aconteceu com base em "prototipação das telas concluída no Figma".
+
 
 #### Funcionalidades 
 
 - [x] Prototipação das telas Web.
 - [x] Prototipação das telas MObile.
+
+Prazo: 05/09/2024
+
+---
+
+### Apresentação do Andarilho com a prototipação em figma - 06/09/2024
+
+Acreditamos que com essa apresentação vamos conseguir expor de forma clara a ideia do nosso projeto, Andarilho, aos professores e companheiros de classe, além de demonstrar a prototipação das telas do aplicativo e site. Saberemos que isso aconteceu com base na compreensão dos professores e companheiros de classe do nosso projeto e no feedback passado pelos professores.
+
+### Implementação das telas do aplicativo - 11/09/2024
+
+Acreditamos que com essa implementação vamos conseguir produzir telas que sejam acessíveis e entendíveis ao público. Saberemos que isso aconteceu se as telas forem aprovadas pelo professor Ig Ibert.
+
+#### Funcionalidades 
+
+- [x] Implementação das telas Mobile.
+
+Prazo: 23/09/2024
+
+### Disponibilizar o projeto em ambiente de produção - 20/09/2024
+
+Acreditamos que com essa disponibilização poderemos mostrar ao professor Ig Ibert o projeto em ambiente de produção e deixar disponibilizado para futuras apresentações. Saberemos que as telas foram aprovadas a partir do feedback do professor Ig Ibert.
+
+#### Funcionalidades 
+
+- [x] Subir a API em ambiente de produção.
+- [x] Subir o Front-end em ambiente de produção.
+
+Prazo: 23/09/2024
 
 ## Riscos
 
@@ -293,27 +332,27 @@ Representa os meios de comunicação, tanto locais quanto nacionais, responsáve
 ## Equipe
 
 Maria Isadora Bomfim Paz <br />
-*Cargo a definir* <br />
+*Dev Front End* <br />
 *mibp@ic.ufal.br* <br />
 https://github.com/Ashlc
 
 Edvar Monteiro da Silva Neto <br />
-*Cargo a definir* <br />
+*Dev Back Endr* <br />
 *emsn@ic.ufal.br* <br />
 https://github.com/Edvar82
 
 José Janio Marinho de Castro Junior <br />
-*Cargo a definir* <br />
+*Dev Back End* <br />
 *jjmc@ic.ufal.br* <br />
 https://github.com/Jani0Marinho
 
 João Pedro Castelo Branco Mendes <br />
-*Cargo a definir* <br />
+*Dev Front End* <br />
 *jpcbm@ic.ufal.br* <br />
 https://github.com/Pedr0Castel0
 
 Carlos Eduardo Noslin Tenório Galvão <br />
-*Cargo a definir* <br />
+*Dev Back End* <br />
 *centg@ic.ufal.br* <br />
 https://github.com/cedugalvao
 

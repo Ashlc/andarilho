@@ -14,6 +14,7 @@ import {
   RiArrowDropRightFill,
   RiFilter2Fill,
 } from 'react-icons/ri';
+import { CiClock2, CiLocationOn } from 'react-icons/ci';
 import { useNavigate } from 'react-router-dom';
 
 export default function Index() {
@@ -26,8 +27,18 @@ export default function Index() {
   };
 
   const formatDate = (date: string) => {
-    const [year, month, day] = date.split('-');
-    return `${day}/${month}/${year}`;
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZoneName: 'short',
+    };
+
+    const dateObj = new Date(date);
+    return dateObj.toLocaleDateString('pt-BR', options);
   };
 
   const getReports = async () => {
@@ -35,7 +46,11 @@ export default function Index() {
       path: '/report',
       token,
     });
-    setReports(response as unknown as IReport[]);
+
+    const filteredReports = response.filter(
+      (report: IReport) => report.userId === authUser?.id,
+    );
+    setReports(filteredReports as unknown as IReport[]);
   };
 
   useEffect(() => {
@@ -65,16 +80,25 @@ export default function Index() {
           {reports.map((report) => (
             <div key={report.id} className="border-b border-border">
               <div className="flex flex-row py-3 px-3 items-center space-x-3">
-                <ReportType type={report.type} />
+                <ReportType type={report.resource} />
                 <Column className="w-full space-y-1">
                   <Row className="gap-2 items-center">
-                    <p className="font-semibold text-sm">{report.resource}</p>
+                    <p className="font-semibold text-sm">
+                      {report.description}
+                    </p>
                     <StatusTag status={report.status} />
                   </Row>
                   {report.createdAt && (
-                    <p className="text-muted-foreground text-xs">
-                      Reporte realizado em {formatDate(report.createdAt)}
-                    </p>
+                    <Column className="text-xs gap-1">
+                      <Row className="text-muted-foreground text-xs gap-1">
+                        <CiClock2 size={16} />
+                        <p>{formatDate(report.createdAt)}</p>
+                      </Row>
+                      <Row className="text-muted-foreground text-xs gap-1">
+                        <CiLocationOn size={16} />
+                        <p>{report.location.address}</p>
+                      </Row>
+                    </Column>
                   )}
                 </Column>
                 <Button

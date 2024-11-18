@@ -23,11 +23,13 @@ import { resourceTranslation } from '@utils/resourceTranslation';
 import { useEffect, useState } from 'react';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { Controller, useForm } from 'react-hook-form';
-import { RiDashboardFill, RiFile3Line } from 'react-icons/ri';
+import { RiArrowRightLine, RiDashboardFill, RiFile3Line } from 'react-icons/ri';
+import { useNavigate } from 'react-router-dom';
 import { Label, Pie, PieChart } from 'recharts';
 import { toast } from 'sonner';
 
 const index = () => {
+  const navigate = useNavigate();
   const [chartData, setChartData] = useState([{ name: '', value: 0 }]);
   const { handleSubmit, control } = useForm();
   const [reports, setReports] = useState<IReport[]>([]);
@@ -79,12 +81,6 @@ const index = () => {
       value: categorizedData[key],
       fill: chartConfig[key as keyof typeof chartConfig].color,
     }));
-
-    chartDataArray.push({ name: 'EVALUATING', value: 10, fill: '#eab308' });
-    chartDataArray.push({ name: 'ONGOING', value: 4, fill: '#a855f7' });
-    chartDataArray.push({ name: 'FINISHED', value: 2, fill: '#22c55e' });
-
-    totalReportsCount += 10 + 4 + 2;
 
     setTotalReports(totalReportsCount);
     setChartData(chartDataArray);
@@ -207,6 +203,7 @@ const index = () => {
                 <TableHead className="w-10"></TableHead>
                 <TableHead>Descrição</TableHead>
                 <TableHead>Data</TableHead>
+                <TableHead>Endereço</TableHead>
                 <TableHead>Recurso</TableHead>
                 <TableHead>Status</TableHead>
               </TableRow>
@@ -228,14 +225,27 @@ const index = () => {
                       )}
                     />
                   </TableCell>
-                  <TableCell>{resourceTranslation[report.resource]}</TableCell>
+                  <TableCell>{report.description}</TableCell>
                   <TableCell>
                     {report.createdAt &&
                       new Date(report.createdAt).toLocaleDateString('pt-br')}
                   </TableCell>
+                  <TableCell>{report.location.address}</TableCell>
                   <TableCell>{resourceTranslation[report.resource]}</TableCell>
                   <TableCell>
                     <StatusTag status={report.status} />
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="aspect-square"
+                      onClick={() => {
+                        navigate(`/reporte/${report.id}`);
+                      }}
+                    >
+                      <RiArrowRightLine size={20} />
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
