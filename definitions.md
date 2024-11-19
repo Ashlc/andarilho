@@ -179,6 +179,27 @@ Acreditamos que com essa disponibilização poderemos mostrar ao professor Ig Ib
 
 Prazo: 23/09/2024
 
+### Implementação das telas do site para os administradores - 18/10/2024
+
+Acreditamos que com essa implementação vamos conseguir produzir telas que sejam acessíveis e entendíveis ao funcionários dos órgãos de acessibilidade. Saberemos que isso aconteceu se as telas forem aprovadas pelo professor Ig Ibert e pelo pessoal dos órgãos de acessibilidade.
+
+#### Funcionalidades 
+
+- [x] Implementação das telas web.
+- [x] Implementação das estatísticas para os administradores.
+
+### Implementação dos relatórios para os órgãos de acessibilidade - 01/11/2024
+
+Acreditamos que com essa implementação vamos conseguir gerar os relatórios automaticamente para os órgãos de acessiblidade respeitando o template fornecido ao grupo pelos funcionários dos órgãos de acessibilidade. Saberemos que isso sucedeu se o relatório for aprovado pelo pessoal dos órgãos de acessibilidade.
+
+#### Funcionalidades 
+
+- [x] Implementação da geração dos relatórios de falta de acessibilidade.
+
+### Apresentação do sistema finalizado - 22/11/2024
+
+Acreditamos que por meio dessa apresentação iremos conseguir demonstrar de forma clara o nosso projeto finalizado, Andarilho. Saberemos que isso aconteceu com base na aprovação dos professores e na satisfação por parte dos professores, demais companheiros de classe e funcionários dos órgãos de acessibilidade.
+
 ## Riscos
 
 ### **Risco 1** : Baixa adesão dos usuários à plataforma. *Severidade Média e Probabilidade Alta*.
