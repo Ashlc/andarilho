@@ -49,4 +49,34 @@ export const markers: IMarkers = {
     IN_PROGRESS: marker(WheelchairOngoing),
     RESOLVED: marker(WheelchairDone),
   },
+  tactile_paving: {
+    PENDING: marker(BlindPending),
+    IN_REVIEW: marker(BlindEvaluating),
+    IN_PROGRESS: marker(BlindOngoing),
+    RESOLVED: marker(BlindDone),
+  },
+  bathroom_adaptations: {
+    PENDING: marker(WheelchairPending),
+    IN_REVIEW: marker(WheelchairEvaluating),
+    IN_PROGRESS: marker(WheelchairOngoing),
+    RESOLVED: marker(WheelchairDone),
+  },
+  braille_signs: {
+    PENDING: marker(BlindPending),
+    IN_REVIEW: marker(BlindEvaluating),
+    IN_PROGRESS: marker(BlindOngoing),
+    RESOLVED: marker(BlindDone),
+  },
+  braille_auditory_adaptations: {
+    PENDING: marker(BlindPending),
+    IN_REVIEW: marker(BlindEvaluating),
+    IN_PROGRESS: marker(BlindOngoing),
+    RESOLVED: marker(BlindDone),
+  },
+  reserved_parking: {
+    PENDING: marker(WheelchairPending),
+    IN_REVIEW: marker(WheelchairEvaluating),
+    IN_PROGRESS: marker(WheelchairOngoing),
+    RESOLVED: marker(WheelchairDone),
+  },
 };
