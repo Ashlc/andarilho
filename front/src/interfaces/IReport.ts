@@ -8,7 +8,7 @@ export interface Address {
 
 export interface IReport {
   id: number;
-  processNumber?: string;
+  processNumber: string;
   location: Address;
   type: 'wheelchair' | 'blind';
   resource: 'RAMP' | 'blind';
