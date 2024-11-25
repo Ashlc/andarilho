@@ -33,20 +33,20 @@ const marker = (icon: string): L.Icon =>
 export const markers: IMarkers = {
   wheelchair: {
     PENDING: marker(WheelchairPending),
-    EVALUATING: marker(WheelchairEvaluating),
-    ONGOING: marker(WheelchairOngoing),
-    FINISHED: marker(WheelchairDone),
+    IN_REVIEW: marker(WheelchairEvaluating),
+    IN_PROGRESS: marker(WheelchairOngoing),
+    RESOLVED: marker(WheelchairDone),
   },
   blind: {
     PENDING: marker(BlindPending),
-    EVALUATED: marker(BlindEvaluating),
-    ONGOING: marker(BlindOngoing),
-    FINISHED: marker(BlindDone),
+    IN_REVIEW: marker(BlindEvaluating),
+    IN_PROGRESS: marker(BlindOngoing),
+    RESOLVED: marker(BlindDone),
   },
   RAMP: {
     PENDING: marker(WheelchairPending),
-    EVALUATING: marker(WheelchairEvaluating),
-    ONGOING: marker(WheelchairOngoing),
-    FINISHED: marker(WheelchairDone),
+    IN_REVIEW: marker(WheelchairEvaluating),
+    IN_PROGRESS: marker(WheelchairOngoing),
+    RESOLVED: marker(WheelchairDone),
   },
 };

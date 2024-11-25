@@ -8,12 +8,12 @@ export interface Address {
 
 export interface IReport {
   id: number;
-  processNumber?: string;
+  processNumber: string;
   location: Address;
   type: 'wheelchair' | 'blind';
   resource: 'RAMP' | 'blind';
   photos: string[];
-  status: 'PENDING' | 'EVALUATING' | 'ONGOING' | 'FINISHED';
+  status: 'PENDING' | 'IN_REVIEW' | 'IN_PROGRESS' | 'RESOLVED';
   createdAt?: string;
   description?: string;
   userId: number;

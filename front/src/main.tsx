@@ -1,6 +1,5 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { qc } from '@utils/queryClient';
-import { StrictMode } from 'react';
 import AuthProvider from 'react-auth-kit/AuthProvider';
 import createStore from 'react-auth-kit/createStore';
 import { createRoot } from 'react-dom/client';
@@ -17,13 +16,11 @@ const store = createStore({
 });
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <AuthProvider store={store}>
-      <QueryClientProvider client={qc}>
-        <Toaster position="bottom-center" />
-        <RouterProvider router={AppRoutes} />
-        {/* </GeolocationProvider> */}
-      </QueryClientProvider>
-    </AuthProvider>
-  </StrictMode>,
+  <AuthProvider store={store}>
+    <QueryClientProvider client={qc}>
+      <Toaster position="bottom-center" />
+      <RouterProvider router={AppRoutes} />
+      {/* </GeolocationProvider> */}
+    </QueryClientProvider>
+  </AuthProvider>,
 );

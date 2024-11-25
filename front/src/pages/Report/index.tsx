@@ -264,6 +264,21 @@ const Index = () => {
                   <SelectItem value="wheelchair">Rampa de acesso</SelectItem>
                   {/* <SelectItem value="wheelchair">Elevador</SelectItem> */}
                   {/* <SelectItem value="blind">Corrimão</SelectItem> */}
+                  <SelectItem value="tactile_paving">
+                    Ausência de piso tátil
+                  </SelectItem>
+                  <SelectItem value="bathroom_adaptations">
+                    Banheiros sem adaptações
+                  </SelectItem>
+                  <SelectItem value="braille_signs">
+                    Ausência de placas com braile
+                  </SelectItem>
+                  <SelectItem value="braille_auditory_adaptations">
+                    Falta de adaptações em braile ou auditivas
+                  </SelectItem>
+                  <SelectItem value="reserved_parking">
+                    Ausência de vagas reservadas para PCDs
+                  </SelectItem>
                   <SelectItem value="blind">Sinalização sonora</SelectItem>
                 </SelectContent>
               </Select>

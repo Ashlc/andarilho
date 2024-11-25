@@ -1,3 +1,5 @@
+import Row from '@components/Row';
+import Search from '@components/Search';
 import StatusTag from '@components/StatusTag';
 import { Button } from '@components/ui/button';
 import { Card, CardContent, CardHeader } from '@components/ui/card';
@@ -9,6 +11,13 @@ import {
 } from '@components/ui/chart';
 import { Checkbox } from '@components/ui/checkbox';
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@components/ui/select';
+import {
   Table,
   TableBody,
   TableCell,
@@ -17,13 +26,18 @@ import {
   TableRow,
 } from '@components/ui/table';
 import { IAuthUser } from '@interfaces/IAuthUser';
-import { IReport } from '@interfaces/IReport';
-import { get } from '@services/api';
+import { get, post, put } from '@services/api';
 import { resourceTranslation } from '@utils/resourceTranslation';
 import { useEffect, useState } from 'react';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { Controller, useForm } from 'react-hook-form';
-import { RiArrowRightLine, RiDashboardFill, RiFile3Line } from 'react-icons/ri';
+import {
+  RiArrowRightLine,
+  RiDashboardFill,
+  RiFile3Line,
+  RiFilterOffLine,
+  RiLoader3Line,
+} from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
 import { Label, Pie, PieChart } from 'recharts';
 import { toast } from 'sonner';
@@ -33,22 +47,25 @@ const index = () => {
   const [chartData, setChartData] = useState([{ name: '', value: 0 }]);
   const { handleSubmit, control } = useForm();
   const [reports, setReports] = useState<IReport[]>([]);
+  const [filteredReports, setFilteredReports] = useState<IReport[]>([]);
   const [totalReports, setTotalReports] = useState(0);
+  const [search, setSearch] = useState('');
+  const [generatingReport, setGeneratingReport] = useState(false);
   const { token } = useAuthUser() as IAuthUser;
   const chartConfig = {
     PENDING: {
       label: 'Pendente',
       color: '#ef4444',
     },
-    EVALUATING: {
+    IN_REVIEW: {
       label: 'Avaliando',
       color: '#eab308',
     },
-    ONGOING: {
+    IN_PROGRESS: {
       label: 'Em andamento',
       color: '#a855f7',
     },
-    FINISHED: {
+    RESOLVED: {
       label: 'Finalizado',
       color: '#22c55e',
     },
@@ -87,18 +104,104 @@ const index = () => {
   };
 
   useEffect(() => {
-    getReports();
+    if (token && reports.length === 0) {
+      getReports();
+    }
   }, [token]);
 
-  const onSubmit = (data: Record<string, boolean>) => {
-    const checked: string[] = [];
-    Object.keys(data).forEach((key) => {
-      if (data[key]) {
-        checked.push(key);
+  const onSubmit = async (data: Record<string, boolean>) => {
+    setGeneratingReport(true);
+    try {
+      const checked: string[] = Object.keys(data).filter((key) => data[key]);
+
+      if (checked.length === 0) {
+        toast.info('Nenhum reporte selecionado');
+        return;
       }
-    });
-    if (checked.length === 0) {
-      toast.info('Nenhum reporte selecionado');
+
+      const response = await post({
+        path: '/report/download-pdf',
+        data: {
+          reports: checked.map((id) => ({ processNumber: id })),
+        },
+        token: token,
+        responseType: 'blob',
+      });
+
+      const blob =
+        response.data instanceof Blob
+          ? response.data
+          : new Blob([response.data], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+    } catch (e: unknown) {
+      console.error(e);
+      toast.error(
+        `Erro ao gerar relatório: ${
+          e instanceof Error ? e.message : 'Erro desconhecido'
+        }`,
+      );
+    } finally {
+      setGeneratingReport(false);
+    }
+  };
+
+  const onSearchChange = (value: string) => {
+    setSearch(value);
+    if (value.length > 2) {
+      const _filteredReports = reports.filter((report) =>
+        report.processNumber.toString().includes(value),
+      );
+      setFilteredReports(_filteredReports);
+    }
+    if (value.length === 0) {
+      setFilteredReports(reports);
+    }
+  };
+
+  const clearSearch = () => {
+    setSearch('');
+    setFilteredReports(reports);
+  };
+
+  interface IReport {
+    id: number;
+    processNumber: string;
+    status: 'PENDING' | 'IN_REVIEW' | 'IN_PROGRESS' | 'RESOLVED';
+    resource: 'RAMP' | 'blind';
+    location: {
+      address: string;
+    };
+    createdAt: string;
+    description: string;
+    photos: string[];
+    userId: number;
+  }
+  const updateReportStatus = async (report: IReport, status: string) => {
+    try {
+      await put({
+        path: `/report/${report.id}`,
+        data: {
+          id: report.id,
+          processNumber: report.processNumber,
+          status: status,
+          resource: report.resource,
+          location: report.location,
+          createdAt: report.createdAt,
+          description: report.description,
+          photos: report.photos,
+          userId: report.userId,
+        },
+        token: token,
+      });
+      getReports();
+    } catch (e: unknown) {
+      console.error(e);
+      toast.error(
+        `Erro ao atualizar status do reporte: ${
+          e instanceof Error ? e.message : 'Erro desconhecido'
+        }`,
+      );
     }
   };
 
@@ -164,7 +267,7 @@ const index = () => {
           </CardHeader>
           <CardContent className="h-[240px]">
             <div className="flex flex-col gap-4">
-              {reports.slice(0, 5).map((report) => (
+              {filteredReports.slice(0, 5).map((report) => (
                 <div
                   key={report.id}
                   className="flex flex-row justify-between text-sm items-center"
@@ -187,11 +290,38 @@ const index = () => {
             <RiDashboardFill size={20} />
             <h2>PAINEL DE CONTROLE</h2>
           </div>
-          <Button form="report-form" type="submit" className="gap-2">
-            <RiFile3Line />
-            Gerar relatório
+          <Button
+            form="report-form"
+            type="submit"
+            className="gap-2 w-[150px]"
+            disabled={generatingReport}
+          >
+            {generatingReport ? (
+              <RiLoader3Line className="animate-spin" />
+            ) : (
+              <>
+                <RiFile3Line />
+                Gerar relatório
+              </>
+            )}
           </Button>
         </div>
+        <Row className="gap-2">
+          <Search
+            value={search}
+            onChange={onSearchChange}
+            placeholder="Pesquisar por número de processo"
+          />
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={clearSearch}
+            className="border-black w-fit px-4 gap-2"
+          >
+            <RiFilterOffLine size={18} />
+            Limpar filtros
+          </Button>
+        </Row>
         <form
           className="grow border rounded-lg"
           onSubmit={handleSubmit(onSubmit)}
@@ -201,7 +331,7 @@ const index = () => {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-10"></TableHead>
-                <TableHead>Descrição</TableHead>
+                <TableHead>Nº Processo</TableHead>
                 <TableHead>Data</TableHead>
                 <TableHead>Endereço</TableHead>
                 <TableHead>Recurso</TableHead>
@@ -213,19 +343,19 @@ const index = () => {
                 <TableRow key={report.id}>
                   <TableCell className="w-10">
                     <Controller
-                      name={report.id.toString()}
+                      name={report.processNumber.toString()}
                       control={control}
                       render={({ field }) => (
                         <Checkbox
                           className="h-4 w-4"
-                          id={report.id.toString()}
+                          id={report.processNumber.toString()}
                           checked={field.value}
                           onCheckedChange={(value) => field.onChange(value)}
                         />
                       )}
                     />
                   </TableCell>
-                  <TableCell>{report.description}</TableCell>
+                  <TableCell>{report.processNumber}</TableCell>
                   <TableCell>
                     {report.createdAt &&
                       new Date(report.createdAt).toLocaleDateString('pt-br')}
@@ -233,9 +363,45 @@ const index = () => {
                   <TableCell>{report.location.address}</TableCell>
                   <TableCell>{resourceTranslation[report.resource]}</TableCell>
                   <TableCell>
-                    <StatusTag status={report.status} />
+                    <Select
+                      value={report.status}
+                      onValueChange={(value) => {
+                        updateReportStatus(report, value);
+                      }}
+                    >
+                      <SelectTrigger className="border-black">
+                        <SelectValue placeholder="Status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="PENDING">
+                          <Row className="items-center gap-2">
+                            <StatusTag status="PENDING" size="dot" />
+                            Pendente
+                          </Row>
+                        </SelectItem>
+                        <SelectItem value="IN_REVIEW">
+                          <Row className="items-center gap-2">
+                            <StatusTag status="IN_REVIEW" size="dot" />
+                            Em análise
+                          </Row>
+                        </SelectItem>
+                        <SelectItem value="IN_PROGRESS">
+                          <Row className="items-center gap-2">
+                            <StatusTag status="IN_PROGRESS" size="dot" />
+                            Em andamento
+                          </Row>
+                        </SelectItem>
+                        <SelectItem value="RESOLVED">
+                          <Row className="items-center gap-2">
+                            <StatusTag status="RESOLVED" size="dot" />
+                            Finalizado
+                          </Row>
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {/* <StatusTag status={report.status} /> */}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="flex flex-row">
                     <Button
                       size="icon"
                       variant="ghost"

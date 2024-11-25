@@ -1,17 +1,17 @@
 import { statusColors } from '@utils/statusColors';
 
 type Props = {
-  status: 'PENDING' | 'EVALUATING' | 'ONGOING' | 'FINISHED';
-  size? : 'dot' | 'default';
+  status: 'PENDING' | 'IN_REVIEW' | 'IN_PROGRESS' | 'RESOLVED';
+  size?: 'dot' | 'default';
   className?: string;
 };
 
 const index = ({ status, className, size = 'default' }: Props) => {
   const statusTranslation = {
     PENDING: 'Pendente',
-    EVALUATING: 'Em análise',
-    ONGOING: 'Em andamento',
-    FINISHED: 'Finalizado',
+    IN_REVIEW: 'Em análise',
+    IN_PROGRESS: 'Em andamento',
+    RESOLVED: 'Finalizado',
   };
   return (
     <div
