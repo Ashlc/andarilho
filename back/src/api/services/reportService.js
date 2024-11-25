@@ -100,6 +100,7 @@ class ReportService {
                 doc.text(`Status: ${report.status}`);
                 doc.text(`Localização: ${report.location.address}`);
                 doc.text(`Usuário: ${report.user.email}`);
+                doc.text(`Tipo: ${report.resource}`);
                 doc.text(`Descrição: ${report.description}`);
                 doc.moveDown();
             });
