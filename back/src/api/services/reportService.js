@@ -1,5 +1,5 @@
-const { PrismaClient } = require('@prisma/client');
-const PDFDocument = require('pdfkit');
+const { PrismaClient } = require("@prisma/client");
+const PDFDocument = require("pdfkit");
 const prisma = new PrismaClient();
 
 class ReportService {
@@ -8,6 +8,9 @@ class ReportService {
             include: {
                 location: true,
                 user: true,
+            },
+            orderBy: {
+                createdAt: "desc",
             },
         });
     }
@@ -28,7 +31,7 @@ class ReportService {
         return await prisma.report.findMany({
             where: {
                 processNumber: {
-                    in: processNumbers,  // Filtrar apenas os processNumbers fornecidos
+                    in: processNumbers, // Filtrar apenas os processNumbers fornecidos
                 },
             },
             include: {
@@ -74,20 +77,25 @@ class ReportService {
             const reports = await this.getReportprocessNumbers(processNumbers);
 
             if (reports.length === 0) {
-                return res.status(404).json({ message: "Nenhum relatório encontrado" });
+                return res
+                    .status(404)
+                    .json({ message: "Nenhum relatório encontrado" });
             }
 
             const doc = new PDFDocument();
 
-            res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader('Content-Disposition', 'attachment; filename=reports.pdf');
+            res.setHeader("Content-Type", "application/pdf");
+            res.setHeader(
+                "Content-Disposition",
+                "attachment; filename=reports.pdf"
+            );
 
             doc.pipe(res);
 
-            doc.fontSize(18).text('Relatórios Gerados', { align: 'center' });
+            doc.fontSize(18).text("Relatórios Gerados", { align: "center" });
             doc.moveDown();
 
-            reports.forEach(report => {
+            reports.forEach((report) => {
                 doc.fontSize(14).text(`ID: ${report.id}`);
                 doc.text(`Status: ${report.status}`);
                 doc.text(`Localização: ${report.location.address}`);
