@@ -16,6 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from '@components/ui/table';
+import { post } from '@services/api';
 import { IAuthUser } from '@interfaces/IAuthUser';
 import { IReport } from '@interfaces/IReport';
 import { get } from '@services/api';
@@ -27,6 +28,7 @@ import { RiArrowRightLine, RiDashboardFill, RiFile3Line } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
 import { Label, Pie, PieChart } from 'recharts';
 import { toast } from 'sonner';
+import { saveAs } from 'file-saver';
 
 const index = () => {
   const navigate = useNavigate();
@@ -90,15 +92,31 @@ const index = () => {
     getReports();
   }, [token]);
 
-  const onSubmit = (data: Record<string, boolean>) => {
-    const checked: string[] = [];
-    Object.keys(data).forEach((key) => {
-      if (data[key]) {
-        checked.push(key);
+  const onSubmit = async (data: Record<string, boolean>) => {
+    try {
+      const checked: string[] = Object.keys(data).filter((key) => data[key]);
+
+      if (checked.length === 0) {
+        toast.info('Nenhum reporte selecionado');
+        return;
       }
-    });
-    if (checked.length === 0) {
-      toast.info('Nenhum reporte selecionado');
+
+      const response = await post({
+        path: '/report/download-pdf',
+        data: {
+          reports: checked.map((id) => ({ processNumber: id })),
+        },
+        token: token,
+        responseType: 'blob',
+      });
+
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      saveAs(blob, 'reports.pdf');
+    } catch (e: any) {
+      console.error(e);
+      toast.error(
+        `Erro ao gerar relatório: ${e.message || 'Erro desconhecido'}`,
+      );
     }
   };
 
@@ -213,12 +231,12 @@ const index = () => {
                 <TableRow key={report.id}>
                   <TableCell className="w-10">
                     <Controller
-                      name={report.id.toString()}
+                      name={report.processNumber.toString()}
                       control={control}
                       render={({ field }) => (
                         <Checkbox
                           className="h-4 w-4"
-                          id={report.id.toString()}
+                          id={report.processNumber.toString()}
                           checked={field.value}
                           onCheckedChange={(value) => field.onChange(value)}
                         />
