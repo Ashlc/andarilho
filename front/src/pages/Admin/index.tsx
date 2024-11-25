@@ -194,6 +194,7 @@ const index = () => {
         },
         token: token,
       });
+      getReports();
     } catch (e: unknown) {
       console.error(e);
       toast.error(
