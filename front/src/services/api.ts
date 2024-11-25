@@ -62,6 +62,7 @@ const post = async (args: IRequestArguments): Promise<AxiosResponse> => {
     headers: handleHeaders(args),
     params: args.params,
     data: args.formData ? args.data : JSON.stringify(args.data),
+    responseType: args.responseType || 'json',
   };
   return a.request(config);
 };
