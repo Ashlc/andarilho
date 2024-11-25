@@ -26,7 +26,6 @@ import {
   TableRow,
 } from '@components/ui/table';
 import { IAuthUser } from '@interfaces/IAuthUser';
-import { IReport } from '@interfaces/IReport';
 import { get, post, put } from '@services/api';
 import { resourceTranslation } from '@utils/resourceTranslation';
 import { useEffect, useState } from 'react';
@@ -58,15 +57,15 @@ const index = () => {
       label: 'Pendente',
       color: '#ef4444',
     },
-    EVALUATING: {
+    IN_REVIEW: {
       label: 'Avaliando',
       color: '#eab308',
     },
-    ONGOING: {
+    IN_PROGRESS: {
       label: 'Em andamento',
       color: '#a855f7',
     },
-    FINISHED: {
+    RESOLVED: {
       label: 'Finalizado',
       color: '#22c55e',
     },
@@ -165,11 +164,34 @@ const index = () => {
     setFilteredReports(reports);
   };
 
-  const updateReportStatus = async (reportId: number, status: string) => {
+  interface IReport {
+    id: number;
+    processNumber: string;
+    status: 'PENDING' | 'IN_REVIEW' | 'IN_PROGRESS' | 'RESOLVED';
+    resource: 'RAMP' | 'blind';
+    location: {
+      address: string;
+    };
+    createdAt: string;
+    description: string;
+    photos: string[];
+    userId: number;
+  }
+  const updateReportStatus = async (report: IReport, status: string) => {
     try {
       await put({
-        path: `/report/${reportId}/status`,
-        data: { status },
+        path: `/report/${report.id}`,
+        data: {
+          id: report.id,
+          processNumber: report.processNumber,
+          status: status,
+          resource: report.resource,
+          location: report.location,
+          createdAt: report.createdAt,
+          description: report.description,
+          photos: report.photos,
+          userId: report.userId,
+        },
         token: token,
       });
     } catch (e: unknown) {
@@ -343,7 +365,7 @@ const index = () => {
                     <Select
                       value={report.status}
                       onValueChange={(value) => {
-                        updateReportStatus(report.id, value);
+                        updateReportStatus(report, value);
                       }}
                     >
                       <SelectTrigger className="border-black">
@@ -356,21 +378,21 @@ const index = () => {
                             Pendente
                           </Row>
                         </SelectItem>
-                        <SelectItem value="EVALUATING">
+                        <SelectItem value="IN_REVIEW">
                           <Row className="items-center gap-2">
-                            <StatusTag status="EVALUATING" size="dot" />
+                            <StatusTag status="IN_REVIEW" size="dot" />
                             Em análise
                           </Row>
                         </SelectItem>
-                        <SelectItem value="ONGOING">
+                        <SelectItem value="IN_PROGRESS">
                           <Row className="items-center gap-2">
-                            <StatusTag status="ONGOING" size="dot" />
+                            <StatusTag status="IN_PROGRESS" size="dot" />
                             Em andamento
                           </Row>
                         </SelectItem>
-                        <SelectItem value="FINISHED">
+                        <SelectItem value="RESOLVED">
                           <Row className="items-center gap-2">
-                            <StatusTag status="FINISHED" size="dot" />
+                            <StatusTag status="RESOLVED" size="dot" />
                             Finalizado
                           </Row>
                         </SelectItem>
